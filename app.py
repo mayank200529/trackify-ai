@@ -21,17 +21,22 @@ def register():
         conn = get_db_connection()
         cursor = conn.cursor()
 
-        cursor.execute(
-            "INSERT INTO users(name,email,password) VALUES(%s,%s,%s)",
-            (name, email, hashed_password)
-        )
+        try:
+            cursor.execute(
+                "INSERT INTO users(name,email,password) VALUES(%s,%s,%s)",
+                (name, email, hashed_password)
+            )
 
-        conn.commit()
+            conn.commit()
 
-        cursor.close()
-        conn.close()
+            cursor.close()
+            conn.close()
+            return "User Registered Successfully!"
+        except:
 
-        return "User Registered Successfully!"
+            cursor.close()
+            conn.close()
+            return "Email already exists!"
 
     return render_template("register.html")
 
