@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request
 from db import get_db_connection
+from werkzeug.security import generate_password_hash
 
 app = Flask(__name__)
 
@@ -15,13 +16,14 @@ def register():
         name = request.form["name"]
         email = request.form["email"]
         password = request.form["password"]
+        hashed_password = generate_password_hash(password)
 
         conn = get_db_connection()
         cursor = conn.cursor()
 
         cursor.execute(
             "INSERT INTO users(name,email,password) VALUES(%s,%s,%s)",
-            (name, email, password)
+            (name, email, hashed_password)
         )
 
         conn.commit()
