@@ -1,11 +1,33 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, session, redirect
 from db import get_db_connection
-from werkzeug.security import generate_password_hash
+from werkzeug.security import generate_password_hash, check_password_hash
 
 app = Flask(__name__)
+app.secret_key = "trackify_secret"
 
-@app.route("/")
+@app.route("/", methods=["GET", "POST"])
 def home():
+
+    if request.method == "POST":
+        email = request.form["email"]
+        password = request.form["password"]
+
+        conn = get_db_connection()
+        cursor = conn.cursor(dictionary=True)
+
+        cursor.execute("SELECT * FROM users WHERE email=%s", (email,))
+        user = cursor.fetchone()
+
+        cursor.close()
+        conn.close()
+
+        if user and check_password_hash(user["password"], password):
+            session["user_id"] = user["id"]
+            session["user_name"] = user["name"]
+            return redirect("/dashboard")
+        else:
+            return "Invalid email or password"
+
     return render_template("login.html")
 
 @app.route("/register", methods=["GET", "POST"])
@@ -39,6 +61,10 @@ def register():
             return "Email already exists!"
 
     return render_template("register.html")
+
+@app.route("/dashboard")
+def dashboard():
+    return render_template("dashboard.html")
 
 if __name__ == "__main__":
     app.run(debug=True)
