@@ -64,7 +64,15 @@ def register():
 
 @app.route("/dashboard")
 def dashboard():
+    if "user_id" not in session:
+        return redirect("/")
+    
     return render_template("dashboard.html")
+
+@app.route("/logout")
+def logout():
+    session.clear()
+    return redirect("/")
 
 if __name__ == "__main__":
     app.run(debug=True)
