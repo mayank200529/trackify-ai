@@ -64,10 +64,38 @@ def register():
 
 @app.route("/dashboard")
 def dashboard():
+
     if "user_id" not in session:
         return redirect("/")
-    
-    return render_template("dashboard.html")
+
+    user_id = session["user_id"]
+
+    conn = get_db_connection()
+    cursor = conn.cursor(dictionary=True)
+
+    cursor.execute(
+        "SELECT COUNT(*) AS total_entries FROM learning_entries WHERE user_id=%s",
+        (user_id,)
+    )
+    total_entries = cursor.fetchone()["total_entries"]
+
+    cursor.execute(
+        "SELECT SUM(hours) AS total_hours FROM learning_entries WHERE user_id=%s",
+        (user_id,)
+    )
+
+    result = cursor.fetchone()
+    total_hours = result["total_hours"] if result["total_hours"] else 0
+
+    cursor.close()
+    conn.close()
+
+    return render_template(
+        "dashboard.html",
+        total_entries=total_entries,
+        total_hours=total_hours
+    )
+
 
 @app.route("/logout")
 def logout():
