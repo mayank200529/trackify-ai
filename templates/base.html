@@ -2,13 +2,23 @@
 <html>
 <head>
     <title>Trackify AI</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
 
-    <h2>Trackify AI</h2>
-    <hr>
+    <nav>
+        <h2>Trackify AI</h2>
 
-    {% block content %}{% endblock %}
+        <div>
+            <a href="/dashboard">Dashboard</a>
+            <a href="/learning">Learning</a>
+            <a href="/logout">Logout</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        {% block content %}{% endblock %}
+    </div>
 
 </body>
 </html>
