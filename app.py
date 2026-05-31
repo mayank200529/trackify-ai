@@ -80,12 +80,13 @@ def learning():
     if "user_id" not in session:
         return redirect("/")
 
+    user_id = session["user_id"]
+
     if request.method == "POST":
         topic = request.form["topic"]
         hours = request.form["hours"]
         category = request.form["category"]
         entry_date = request.form["entry_date"]
-        user_id = session["user_id"]
 
         conn = get_db_connection()
         cursor = conn.cursor()
@@ -99,8 +100,22 @@ def learning():
         cursor.close()
         conn.close()
 
-        return "Learning Entry Added Successfully!"
+        return redirect("/learning")
 
-    return render_template("learning.html")
+    conn = get_db_connection()
+    cursor = conn.cursor(dictionary=True)
+
+    cursor.execute(
+        "SELECT * FROM learning_entries WHERE user_id=%s ORDER BY entry_date DESC",
+        (user_id,)
+    )
+
+    entries = cursor.fetchall()
+
+    cursor.close()
+    conn.close()
+
+    return render_template("learning.html", entries=entries)
+
 if __name__ == "__main__":
     app.run(debug=True)
