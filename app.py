@@ -1,4 +1,5 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request
+from db import get_db_connection
 
 app = Flask(__name__)
 
@@ -6,8 +7,30 @@ app = Flask(__name__)
 def home():
     return render_template("login.html")
 
-@app.route("/register")
+@app.route("/register", methods=["GET", "POST"])
 def register():
+
+    if request.method == "POST":
+
+        name = request.form["name"]
+        email = request.form["email"]
+        password = request.form["password"]
+
+        conn = get_db_connection()
+        cursor = conn.cursor()
+
+        cursor.execute(
+            "INSERT INTO users(name,email,password) VALUES(%s,%s,%s)",
+            (name, email, password)
+        )
+
+        conn.commit()
+
+        cursor.close()
+        conn.close()
+
+        return "User Registered Successfully!"
+
     return render_template("register.html")
 
 if __name__ == "__main__":
