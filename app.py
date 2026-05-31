@@ -74,5 +74,33 @@ def logout():
     session.clear()
     return redirect("/")
 
+@app.route("/learning", methods=["GET", "POST"])
+def learning():
+
+    if "user_id" not in session:
+        return redirect("/")
+
+    if request.method == "POST":
+        topic = request.form["topic"]
+        hours = request.form["hours"]
+        category = request.form["category"]
+        entry_date = request.form["entry_date"]
+        user_id = session["user_id"]
+
+        conn = get_db_connection()
+        cursor = conn.cursor()
+
+        cursor.execute(
+            "INSERT INTO learning_entries(user_id, topic, hours, category, entry_date) VALUES(%s,%s,%s,%s,%s)",
+            (user_id, topic, hours, category, entry_date)
+        )
+
+        conn.commit()
+        cursor.close()
+        conn.close()
+
+        return "Learning Entry Added Successfully!"
+
+    return render_template("learning.html")
 if __name__ == "__main__":
     app.run(debug=True)

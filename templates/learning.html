@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2>Add Learning Entry</h2>
+
+<form method="POST">
+    <label>Topic:</label><br>
+    <input type="text" name="topic"><br><br>
+
+    <label>Hours Studied:</label><br>
+    <input type="number" step="0.5" name="hours"><br><br>
+
+    <label>Category:</label><br>
+    <select name="category">
+        <option>DSA</option>
+        <option>SQL</option>
+        <option>CS Core</option>
+        <option>Project</option>
+        <option>Aptitude</option>
+    </select><br><br>
+
+    <label>Date:</label><br>
+    <input type="date" name="entry_date"><br><br>
+
+    <button type="submit">Add Entry</button>
+</form>
+
+<br>
+<a href="/dashboard">Back to Dashboard</a>
+
+{% endblock %}
