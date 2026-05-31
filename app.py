@@ -97,11 +97,6 @@ def dashboard():
     )
 
 
-@app.route("/logout")
-def logout():
-    session.clear()
-    return redirect("/")
-
 @app.route("/learning", methods=["GET", "POST"])
 def learning():
 
@@ -144,6 +139,35 @@ def learning():
     conn.close()
 
     return render_template("learning.html", entries=entries)
+
+@app.route("/delete-entry/<int:id>")
+def delete_entry(id):
+
+    if "user_id" not in session:
+        return redirect("/")
+
+    user_id = session["user_id"]
+
+    conn = get_db_connection()
+    cursor = conn.cursor()
+
+    cursor.execute(
+        "DELETE FROM learning_entries WHERE id=%s AND user_id=%s",
+        (id, user_id)
+    )
+
+    conn.commit()
+    cursor.close()
+    conn.close()
+
+    return redirect("/learning")
+
+@app.route("/logout")
+def logout():
+    session.clear()
+    return redirect("/")
+
+
 
 if __name__ == "__main__":
     app.run(debug=True)

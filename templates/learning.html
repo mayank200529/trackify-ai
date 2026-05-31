@@ -32,10 +32,11 @@
 
 <table border="1" cellpadding="8">
     <tr>
-        <th>Topic</th>
-        <th>Hours</th>
-        <th>Category</th>
-        <th>Date</th>
+    <th>Topic</th>
+    <th>Hours</th>
+    <th>Category</th>
+    <th>Date</th>
+    <th>Action</th>
     </tr>
 
     {% for entry in entries %}
@@ -44,6 +45,9 @@
         <td>{{ entry.hours }}</td>
         <td>{{ entry.category }}</td>
         <td>{{ entry.entry_date }}</td>
+        <td>
+            <a href="/delete-entry/{{ entry.id }}">Delete</a>
+        </td>
     </tr>
     {% endfor %}
 </table>
