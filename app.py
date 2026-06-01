@@ -87,13 +87,29 @@ def dashboard():
     result = cursor.fetchone()
     total_hours = result["total_hours"] if result["total_hours"] else 0
 
+    cursor.execute(
+        """
+        SELECT topic
+        FROM learning_entries
+        WHERE user_id=%s
+        ORDER BY id DESC
+        LIMIT 1
+        """,
+        (user_id,)
+    )
+
+    latest = cursor.fetchone()
+
+    latest_topic = latest["topic"] if latest else "No Entries"
+
     cursor.close()
     conn.close()
 
     return render_template(
         "dashboard.html",
         total_entries=total_entries,
-        total_hours=total_hours
+        total_hours=total_hours,
+        latest_topic=latest_topic
     )
 
 
