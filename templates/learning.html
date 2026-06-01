@@ -36,7 +36,7 @@
     <th>Hours</th>
     <th>Category</th>
     <th>Date</th>
-    <th>Action</th>
+    <th>Actions</th>
     </tr>
 
     {% for entry in entries %}
@@ -46,6 +46,8 @@
         <td>{{ entry.category }}</td>
         <td>{{ entry.entry_date }}</td>
         <td>
+            <a href="/edit-entry/{{ entry.id }}">Edit</a>
+            |
             <a href="/delete-entry/{{ entry.id }}">Delete</a>
         </td>
     </tr>

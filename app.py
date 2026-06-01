@@ -178,6 +178,53 @@ def delete_entry(id):
 
     return redirect("/learning")
 
+@app.route("/edit-entry/<int:id>", methods=["GET", "POST"])
+def edit_entry(id):
+
+    if "user_id" not in session:
+        return redirect("/")
+
+    if request.method == "POST":
+
+        topic = request.form["topic"]
+        hours = request.form["hours"]
+        category = request.form["category"]
+        entry_date = request.form["entry_date"]
+    
+        conn = get_db_connection()
+        cursor = conn.cursor()
+    
+        cursor.execute(
+            """
+            UPDATE learning_entries
+            SET topic=%s, hours=%s, category=%s, entry_date=%s
+            WHERE id=%s
+            """,
+            (topic, hours, category, entry_date, id)
+        )
+    
+        conn.commit()
+    
+        cursor.close()
+        conn.close()
+    
+        return redirect("/learning")
+
+    conn = get_db_connection()
+    cursor = conn.cursor(dictionary=True)
+
+    cursor.execute(
+        "SELECT * FROM learning_entries WHERE id=%s",
+        (id,)
+    )
+
+    entry = cursor.fetchone()
+
+    cursor.close()
+    conn.close()
+
+    return render_template("edit_entry.html", entry=entry)
+
 @app.route("/logout")
 def logout():
     session.clear()
