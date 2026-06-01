@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, session, redirect
 from db import get_db_connection
 from werkzeug.security import generate_password_hash, check_password_hash
+from datetime import date
 
 app = Flask(__name__)
 app.secret_key = "trackify_secret"
@@ -102,6 +103,30 @@ def dashboard():
 
     latest_topic = latest["topic"] if latest else "No Entries"
 
+    cursor.execute(
+        """
+        SELECT DISTINCT entry_date
+        FROM learning_entries
+        WHERE user_id=%s
+        ORDER BY entry_date DESC
+        """,
+        (user_id,)
+    )
+
+    dates = cursor.fetchall()
+
+    streak = 0
+    today = date.today()
+
+    for row in dates:
+
+        entry_date = row["entry_date"]
+
+        if (today - entry_date).days == streak:
+            streak += 1
+        else:
+            break
+
     cursor.close()
     conn.close()
 
@@ -109,7 +134,8 @@ def dashboard():
         "dashboard.html",
         total_entries=total_entries,
         total_hours=total_hours,
-        latest_topic=latest_topic
+        latest_topic=latest_topic,
+        streak=streak
     )
 
 
@@ -190,10 +216,10 @@ def edit_entry(id):
         hours = request.form["hours"]
         category = request.form["category"]
         entry_date = request.form["entry_date"]
-    
+
         conn = get_db_connection()
         cursor = conn.cursor()
-    
+
         cursor.execute(
             """
             UPDATE learning_entries
@@ -202,12 +228,12 @@ def edit_entry(id):
             """,
             (topic, hours, category, entry_date, id)
         )
-    
+
         conn.commit()
-    
+
         cursor.close()
         conn.close()
-    
+
         return redirect("/learning")
 
     conn = get_db_connection()
