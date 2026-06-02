@@ -180,3 +180,13 @@ a{
 .stat-card h1{
     font-size:40px;
 }
+
+.chart-box{
+    height:300px;
+    max-height:300px;
+    margin:25px 0;
+}
+
+.chart-box canvas{
+    max-height:300px;
+}

@@ -126,6 +126,18 @@ def dashboard():
             streak += 1
         else:
             break
+    cursor.execute(
+        """
+        SELECT DAYNAME(entry_date) AS day_name, SUM(hours) AS total
+        FROM learning_entries
+        WHERE user_id=%s
+        GROUP BY entry_date
+        ORDER BY entry_date
+        """,
+        (user_id,)
+    )
+
+    weekly_data = cursor.fetchall()
 
     cursor.close()
     conn.close()
@@ -135,7 +147,8 @@ def dashboard():
         total_entries=total_entries,
         total_hours=total_hours,
         latest_topic=latest_topic,
-        streak=streak
+        streak=streak,
+        weekly_data=weekly_data
     )
 
 
