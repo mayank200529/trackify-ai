@@ -1,8 +1,9 @@
-from flask import Flask, render_template, request, session, redirect
+from flask import Flask, render_template, request, session, redirect, send_file
 from db import get_db_connection
 from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import date
 from gemini_helper import get_ai_insight
+from report_generator import generate_study_report
 
 app = Flask(__name__)
 app.secret_key = "trackify_secret"
@@ -298,6 +299,59 @@ def edit_entry(id):
     conn.close()
 
     return render_template("edit_entry.html", entry=entry)
+
+
+@app.route("/download-report")
+def download_report():
+
+    if "user_id" not in session:
+        return redirect("/")
+
+    user_name = session["user_name"]
+    filename = "trackify_report.pdf"
+
+    conn = get_db_connection()
+    cursor = conn.cursor(dictionary=True)
+
+    user_id = session["user_id"]
+
+    cursor.execute(
+        "SELECT COUNT(*) AS total_entries FROM learning_entries WHERE user_id=%s",
+        (user_id,)
+    )
+    total_entries = cursor.fetchone()["total_entries"]
+
+    cursor.execute(
+        "SELECT SUM(hours) AS total_hours FROM learning_entries WHERE user_id=%s",
+        (user_id,)
+    )
+    result = cursor.fetchone()
+    total_hours = result["total_hours"] if result["total_hours"] else 0
+
+    cursor.execute(
+        "SELECT topic FROM learning_entries WHERE user_id=%s ORDER BY id DESC LIMIT 1",
+        (user_id,)
+    )
+    latest = cursor.fetchone()
+    latest_topic = latest["topic"] if latest else "No Entries"
+
+    streak = 0
+    ai_insight = "Keep tracking your preparation regularly and focus on weak topics."
+
+    cursor.close()
+    conn.close()
+
+    generate_study_report(
+        filename,
+        user_name,
+        total_entries,
+        total_hours,
+        latest_topic,
+        streak,
+        ai_insight
+    )
+
+    return send_file(filename, as_attachment=True)
 
 @app.route("/logout")
 def logout():
