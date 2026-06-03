@@ -353,6 +353,54 @@ def download_report():
 
     return send_file(filename, as_attachment=True)
 
+
+@app.route("/coding", methods=["GET", "POST"])
+def coding():
+
+    if "user_id" not in session:
+        return redirect("/")
+
+    user_id = session["user_id"]
+
+    if request.method == "POST":
+        platform = request.form["platform"]
+        problem_name = request.form["problem_name"]
+        difficulty = request.form["difficulty"]
+        topic = request.form["topic"]
+        status = request.form["status"]
+
+        conn = get_db_connection()
+        cursor = conn.cursor()
+
+        cursor.execute(
+            """
+            INSERT INTO coding_entries(user_id, platform, problem_name, difficulty, topic, status)
+            VALUES(%s, %s, %s, %s, %s, %s)
+            """,
+            (user_id, platform, problem_name, difficulty, topic, status)
+        )
+
+        conn.commit()
+        cursor.close()
+        conn.close()
+
+        return redirect("/coding")
+
+    conn = get_db_connection()
+    cursor = conn.cursor(dictionary=True)
+
+    cursor.execute(
+        "SELECT * FROM coding_entries WHERE user_id=%s ORDER BY id DESC",
+        (user_id,)
+    )
+
+    coding_entries = cursor.fetchall()
+
+    cursor.close()
+    conn.close()
+
+    return render_template("coding.html", coding_entries=coding_entries)
+
 @app.route("/logout")
 def logout():
     session.clear()

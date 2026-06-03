@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2>💻 Coding Tracker</h2>
+
+<form method="POST">
+
+    <label>Platform</label>
+    <input type="text" name="platform" required>
+
+    <label>Problem Name</label>
+    <input type="text" name="problem_name" required>
+
+    <label>Difficulty</label>
+    <select name="difficulty">
+        <option>Easy</option>
+        <option>Medium</option>
+        <option>Hard</option>
+    </select>
+
+    <label>Topic</label>
+    <input type="text" name="topic" required>
+
+    <label>Status</label>
+    <select name="status">
+        <option>Solved</option>
+        <option>Attempted</option>
+    </select>
+
+    <button type="submit">Add Problem</button>
+
+</form>
+
+<hr>
+
+<h3>Your Coding Entries</h3>
+
+<table>
+    <tr>
+        <th>Platform</th>
+        <th>Problem</th>
+        <th>Difficulty</th>
+        <th>Topic</th>
+        <th>Status</th>
+    </tr>
+
+    {% for entry in coding_entries %}
+    <tr>
+        <td>{{ entry.platform }}</td>
+        <td>{{ entry.problem_name }}</td>
+        <td>{{ entry.difficulty }}</td>
+        <td>{{ entry.topic }}</td>
+        <td>{{ entry.status }}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+{% endblock %}
