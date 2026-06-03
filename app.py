@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, session, redirect
 from db import get_db_connection
 from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import date
+from gemini_helper import get_ai_insight
 
 app = Flask(__name__)
 app.secret_key = "trackify_secret"
@@ -139,6 +140,24 @@ def dashboard():
 
     weekly_data = cursor.fetchall()
 
+    prompt = f"""
+    You are an AI placement preparation mentor.
+    
+    Student data:
+    Total study entries: {total_entries}
+    Total study hours: {total_hours}
+    Latest topic studied: {latest_topic}
+    Current study streak: {streak} days
+    
+    Give a short study improvement suggestion in 2-3 lines.
+    Keep it simple and motivating.
+    """
+    
+    try:
+        ai_insight = get_ai_insight(prompt)
+    except:
+        ai_insight = "AI insight is currently unavailable. Keep tracking your study progress regularly."    
+
     cursor.close()
     conn.close()
 
@@ -148,7 +167,8 @@ def dashboard():
         total_hours=total_hours,
         latest_topic=latest_topic,
         streak=streak,
-        weekly_data=weekly_data
+        weekly_data=weekly_data,
+        ai_insight=ai_insight
     )
 
 

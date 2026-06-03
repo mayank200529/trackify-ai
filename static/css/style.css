@@ -190,3 +190,21 @@ a{
 .chart-box canvas{
     max-height:300px;
 }
+
+.ai-box{
+    background: #f5f3ff;
+    padding: 20px;
+    border-left: 5px solid #8b5cf6;
+    border-radius: 12px;
+    margin: 20px 0;
+    line-height: 1.6;
+}
+
+.stat-card h1{
+    font-size:40px;
+    word-break:break-word;
+}
+
+.stat-card{
+    min-height:220px;
+}
