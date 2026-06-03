@@ -227,3 +227,25 @@ a{
     font-weight:600;
     box-shadow:0 5px 15px rgba(0,0,0,0.08);
 }
+
+body.dark-mode{
+    background:#111827;
+    color:white;
+}
+
+body.dark-mode .container{
+    background:#1f2937;
+}
+
+body.dark-mode nav{
+    background:#1f2937;
+}
+
+body.dark-mode .ai-box{
+    background:#374151;
+    color:white;
+}
+
+body.dark-mode a{
+    color:#c4b5fd;
+}
