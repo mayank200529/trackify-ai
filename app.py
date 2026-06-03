@@ -173,6 +173,50 @@ def dashboard():
     if streak >= 3:
         badges.append("🔥 Consistent Learner")
 
+    cursor.execute(
+        """
+        SELECT COUNT(*) AS total_problems
+        FROM coding_entries
+        WHERE user_id=%s
+        """,
+        (user_id,)
+    )
+
+    total_problems = cursor.fetchone()["total_problems"]
+
+    cursor.execute(
+        """
+        SELECT COUNT(*) AS easy_count
+        FROM coding_entries
+        WHERE user_id=%s AND difficulty='Easy'
+        """,
+        (user_id,)
+    )
+
+    easy_count = cursor.fetchone()["easy_count"]
+
+    cursor.execute(
+        """
+        SELECT COUNT(*) AS medium_count
+        FROM coding_entries
+        WHERE user_id=%s AND difficulty='Medium'
+        """,
+        (user_id,)
+    )
+
+    medium_count = cursor.fetchone()["medium_count"]
+
+    cursor.execute(
+        """
+        SELECT COUNT(*) AS hard_count
+        FROM coding_entries
+        WHERE user_id=%s AND difficulty='Hard'
+        """,
+        (user_id,)
+    )
+
+    hard_count = cursor.fetchone()["hard_count"]
+
     cursor.close()
     conn.close()
 
@@ -184,7 +228,11 @@ def dashboard():
         streak=streak,
         weekly_data=weekly_data,
         ai_insight=ai_insight,
-        badges=badges
+        badges=badges,
+        total_problems=total_problems,
+        easy_count=easy_count,
+        medium_count=medium_count,
+        hard_count=hard_count
     )
 
 
