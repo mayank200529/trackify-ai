@@ -208,3 +208,18 @@ a{
 .stat-card{
     min-height:220px;
 }
+
+.badge-container{
+    display:flex;
+    gap:15px;
+    flex-wrap:wrap;
+    margin:20px 0;
+}
+
+.badge-card{
+    background:#fff7ed;
+    padding:15px 20px;
+    border-radius:12px;
+    font-weight:600;
+    box-shadow:0 5px 15px rgba(0,0,0,0.08);
+}

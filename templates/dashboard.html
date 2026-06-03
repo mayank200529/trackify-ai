@@ -45,6 +45,18 @@
     <p>{{ ai_insight }}</p>
 </div>
 
+<hr>
+
+<h3>🏆 Achievements</h3>
+
+<div class="badge-container">
+    {% for badge in badges %}
+        <div class="badge-card">
+            {{ badge }}
+        </div>
+    {% endfor %}
+</div>
+
 <p>🚀 Advanced analytics charts coming soon.</p>
 
 <a href="/learning">Add Learning Entry</a>

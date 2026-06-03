@@ -158,6 +158,20 @@ def dashboard():
     except:
         ai_insight = "AI insight is currently unavailable. Keep tracking your study progress regularly."    
 
+    badges = []
+
+    if total_entries >= 1:
+        badges.append("🥉 First Entry")
+
+    if total_hours >= 5:
+        badges.append("🥈 5 Study Hours")
+
+    if total_hours >= 20:
+        badges.append("🥇 20 Study Hours")
+
+    if streak >= 3:
+        badges.append("🔥 Consistent Learner")
+
     cursor.close()
     conn.close()
 
@@ -168,7 +182,8 @@ def dashboard():
         latest_topic=latest_topic,
         streak=streak,
         weekly_data=weekly_data,
-        ai_insight=ai_insight
+        ai_insight=ai_insight,
+        badges=badges
     )
 
 
