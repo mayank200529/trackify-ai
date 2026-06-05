@@ -230,3 +230,51 @@ body.dark-mode a{
     max-width:500px;
     margin:20px auto;
 }
+
+@media(max-width:768px){
+
+    nav{
+        width:95%;
+        flex-direction:column;
+        gap:15px;
+        text-align:center;
+    }
+
+    nav div{
+        display:flex;
+        flex-wrap:wrap;
+        justify-content:center;
+        gap:10px;
+    }
+
+    nav a{
+        margin-left:0;
+    }
+
+    .container{
+        width:95%;
+        padding:20px;
+    }
+
+    .stats-container{
+        flex-direction:column;
+    }
+
+    .stat-card{
+        min-width:100%;
+        min-height:160px;
+    }
+
+    .stat-card h1{
+        font-size:30px;
+    }
+
+    table{
+        font-size:13px;
+    }
+
+    table th,
+    table td{
+        padding:8px;
+    }
+}
