@@ -59,6 +59,13 @@
 <div class="chart-box">
     <canvas id="difficultyChart"></canvas>
 </div>
+
+<h3>📚 Weekly Study Hours</h3>
+
+<div class="chart-box">
+    <canvas id="weeklyStudyChart"></canvas>
+</div>
+
 <hr>
 
 <h3>🤖 AI Study Insight</h3>
@@ -119,6 +126,33 @@
             }]
         }
     });
+</script>
+
+<script>
+const weeklyLabels = [
+    {% for row in weekly_study_data %}
+        "{{ row.day_name }}",
+    {% endfor %}
+];
+
+const weeklyHours = [
+    {% for row in weekly_study_data %}
+        {{ row.total_hours }},
+    {% endfor %}
+];
+
+const weeklyCtx = document.getElementById("weeklyStudyChart");
+
+new Chart(weeklyCtx, {
+    type: "bar",
+    data: {
+        labels: weeklyLabels,
+        datasets: [{
+            label: "Study Hours",
+            data: weeklyHours
+        }]
+    }
+});
 </script>
 
 {% endblock %}

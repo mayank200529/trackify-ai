@@ -226,6 +226,18 @@ def dashboard():
     
     difficulty_data = cursor.fetchall()
 
+    cursor.execute("""
+    SELECT
+        DAYNAME(entry_date) AS day_name,
+        SUM(hours) AS total_hours
+    FROM learning_entries
+    WHERE user_id=%s
+    GROUP BY entry_date
+    ORDER BY entry_date
+    """, (user_id,))
+
+    weekly_study_data = cursor.fetchall()
+
     cursor.close()
     conn.close()
 
@@ -242,7 +254,8 @@ def dashboard():
         easy_count=easy_count,
         medium_count=medium_count,
         hard_count=hard_count,
-        difficulty_data=difficulty_data
+        difficulty_data=difficulty_data,
+        weekly_study_data=weekly_study_data
     )
 
 
