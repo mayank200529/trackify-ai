@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2>🏆 LeetCode Progress</h2>
+
+<form method="POST">
+
+    <label>Total Solved</label>
+    <input type="number" name="total_solved" required>
+
+    <label>Easy Solved</label>
+    <input type="number" name="easy_solved" required>
+
+    <label>Medium Solved</label>
+    <input type="number" name="medium_solved" required>
+
+    <label>Hard Solved</label>
+    <input type="number" name="hard_solved" required>
+
+    <button type="submit">Save LeetCode Stats</button>
+
+</form>
+
+{% endblock %}

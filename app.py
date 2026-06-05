@@ -238,6 +238,26 @@ def dashboard():
 
     weekly_study_data = cursor.fetchall()
 
+
+    problem_progress = min(total_problems, 10)
+    study_progress = min(total_hours, 25)
+    streak_progress = min(streak, 7)
+
+    cursor.execute(
+        "SELECT * FROM leetcode_stats WHERE user_id=%s ORDER BY id DESC LIMIT 1",
+        (user_id,)
+    )
+
+    leetcode_stats = cursor.fetchone()
+
+    if not leetcode_stats:
+        leetcode_stats = {
+            "total_solved": 0,
+            "easy_solved": 0,
+            "medium_solved": 0,
+            "hard_solved": 0
+        }
+        
     cursor.close()
     conn.close()
 
@@ -255,7 +275,11 @@ def dashboard():
         medium_count=medium_count,
         hard_count=hard_count,
         difficulty_data=difficulty_data,
-        weekly_study_data=weekly_study_data
+        weekly_study_data=weekly_study_data,
+        problem_progress=problem_progress,
+        study_progress=study_progress,
+        streak_progress=streak_progress,
+        leetcode_stats=leetcode_stats
     )
 
 
@@ -471,6 +495,45 @@ def coding():
     conn.close()
 
     return render_template("coding.html", coding_entries=coding_entries)
+
+@app.route("/leetcode", methods=["GET", "POST"])
+def leetcode():
+
+    if "user_id" not in session:
+        return redirect("/")
+
+    user_id = session["user_id"]
+
+    if request.method == "POST":
+        total_solved = request.form["total_solved"]
+        easy_solved = request.form["easy_solved"]
+        medium_solved = request.form["medium_solved"]
+        hard_solved = request.form["hard_solved"]
+
+        conn = get_db_connection()
+        cursor = conn.cursor()
+
+        cursor.execute(
+            "DELETE FROM leetcode_stats WHERE user_id=%s",
+            (user_id,)
+        )
+
+        cursor.execute(
+            """
+            INSERT INTO leetcode_stats(user_id, total_solved, easy_solved, medium_solved, hard_solved)
+            VALUES(%s, %s, %s, %s, %s)
+            """,
+            (user_id, total_solved, easy_solved, medium_solved, hard_solved)
+        )
+
+        conn.commit()
+        cursor.close()
+        conn.close()
+
+        return redirect("/dashboard")
+
+    return render_template("leetcode.html")
+
 
 @app.route("/logout")
 def logout():
