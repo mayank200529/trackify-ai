@@ -78,14 +78,26 @@
 
 <hr>
 
-<h3>🏆 Achievements</h3>
+<h3>🏆 Achievement Progress</h3>
 
 <div class="badge-container">
-    {% for badge in badges %}
-        <div class="badge-card">
-            {{ badge }}
-        </div>
-    {% endfor %}
+
+    <div class="badge-card">🥉 First Entry ✅</div>
+
+    <div class="badge-card">🥈 5 Study Hours ✅</div>
+
+    <div class="badge-card">
+        💻 10 Problems Solved: {{ problem_progress }}/10
+    </div>
+
+    <div class="badge-card">
+        ⏱ 25 Study Hours: {{ study_progress }}/25
+    </div>
+
+    <div class="badge-card">
+        🔥 7 Day Streak: {{ streak_progress }}/7
+    </div>
+
 </div>
 
 <p>🚀 Advanced analytics charts coming soon.</p>
