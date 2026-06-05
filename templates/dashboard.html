@@ -56,7 +56,9 @@
 
 
 <h3>📊 Analytics</h3>
-
+<div class="chart-box">
+    <canvas id="difficultyChart"></canvas>
+</div>
 <hr>
 
 <h3>🤖 AI Study Insight</h3>
@@ -92,5 +94,31 @@
 <a href="/logout">Logout</a>
 
 <hr>
+
+<script>
+    const difficultyLabels = [
+        {% for row in difficulty_data %}
+            "{{ row.difficulty }}",
+        {% endfor %}
+    ];
+
+    const difficultyCounts = [
+        {% for row in difficulty_data %}
+            {{ row.count }},
+        {% endfor %}
+    ];
+
+    const difficultyCtx = document.getElementById("difficultyChart");
+
+    new Chart(difficultyCtx, {
+        type: "pie",
+        data: {
+            labels: difficultyLabels,
+            datasets: [{
+                data: difficultyCounts
+            }]
+        }
+    });
+</script>
 
 {% endblock %}

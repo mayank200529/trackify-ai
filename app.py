@@ -217,6 +217,15 @@ def dashboard():
 
     hard_count = cursor.fetchone()["hard_count"]
 
+    cursor.execute("""
+    SELECT difficulty, COUNT(*) AS count
+    FROM coding_entries
+    WHERE user_id=%s
+    GROUP BY difficulty
+    """, (user_id,))
+    
+    difficulty_data = cursor.fetchall()
+
     cursor.close()
     conn.close()
 
@@ -232,7 +241,8 @@ def dashboard():
         total_problems=total_problems,
         easy_count=easy_count,
         medium_count=medium_count,
-        hard_count=hard_count
+        hard_count=hard_count,
+        difficulty_data=difficulty_data
     )
 
 
