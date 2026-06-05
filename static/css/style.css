@@ -225,3 +225,8 @@ body.dark-mode table td{
 body.dark-mode a{
     color:#D9ED92;
 }
+
+.chart-box{
+    max-width:500px;
+    margin:20px auto;
+}

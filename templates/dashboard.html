@@ -56,6 +56,8 @@
 
 
 <h3>📊 Analytics</h3>
+
+<h4>🥧 Coding Difficulty Distribution</h4>
 <div class="chart-box">
     <canvas id="difficultyChart"></canvas>
 </div>
@@ -122,7 +124,13 @@
         data: {
             labels: difficultyLabels,
             datasets: [{
-                data: difficultyCounts
+                data: difficultyCounts,
+                backgroundColor: [
+                    "#52B69A", // Easy
+                    "#F9C74F", // Medium
+                    "#F94144"  // Hard
+                ],
+                borderWidth: 2
             }]
         }
     });
