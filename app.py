@@ -4,6 +4,8 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import date
 from gemini_helper import get_ai_insight
 from report_generator import generate_study_report
+from ai_report_helper import generate_weekly_report
+
 
 app = Flask(__name__)
 app.secret_key = "trackify_secret"
@@ -534,6 +536,52 @@ def leetcode():
 
     return render_template("leetcode.html")
 
+
+@app.route("/ai-weekly-report")
+def ai_weekly_report():
+
+    if "user_id" not in session:
+        return redirect("/")
+
+    user_id = session["user_id"]
+
+    conn = get_db_connection()
+    cursor = conn.cursor(dictionary=True)
+
+    cursor.execute(
+        "SELECT SUM(hours) AS total_hours FROM learning_entries WHERE user_id=%s",
+        (user_id,)
+    )
+    result = cursor.fetchone()
+    total_hours = result["total_hours"] if result["total_hours"] else 0
+
+    cursor.execute(
+        "SELECT COUNT(*) AS total_problems FROM coding_entries WHERE user_id=%s",
+        (user_id,)
+    )
+    total_problems = cursor.fetchone()["total_problems"]
+
+    cursor.execute(
+        "SELECT * FROM leetcode_stats WHERE user_id=%s ORDER BY id DESC LIMIT 1",
+        (user_id,)
+    )
+    leetcode_stats = cursor.fetchone()
+
+    leetcode_total = leetcode_stats["total_solved"] if leetcode_stats else 0
+
+    cursor.close()
+    conn.close()
+
+    streak = 0
+
+    report = generate_weekly_report(
+        total_hours,
+        total_problems,
+        streak,
+        leetcode_total
+    )
+
+    return render_template("ai_weekly_report.html", report=report)
 
 @app.route("/logout")
 def logout():
