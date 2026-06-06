@@ -435,6 +435,29 @@ def download_report():
     streak = 0
     ai_insight = "Keep tracking your preparation regularly and focus on weak topics."
 
+    cursor.execute(
+        "SELECT COUNT(*) AS total_problems FROM coding_entries WHERE user_id=%s",
+        (user_id,)
+    )
+    total_problems = cursor.fetchone()["total_problems"]
+
+    cursor.execute(
+            "SELECT * FROM leetcode_stats WHERE user_id=%s ORDER BY id DESC LIMIT 1",
+            (user_id,)
+        )
+    leetcode = cursor.fetchone()
+
+    if leetcode:
+        leetcode_total = leetcode["total_solved"]
+        leetcode_easy = leetcode["easy_solved"]
+        leetcode_medium = leetcode["medium_solved"]
+        leetcode_hard = leetcode["hard_solved"]
+    else:
+        leetcode_total = 0
+        leetcode_easy = 0
+        leetcode_medium = 0
+        leetcode_hard = 0
+
     cursor.close()
     conn.close()
 
@@ -445,7 +468,12 @@ def download_report():
         total_hours,
         latest_topic,
         streak,
-        ai_insight
+        ai_insight,
+        total_problems,
+        leetcode_total,
+        leetcode_easy,
+        leetcode_medium,
+        leetcode_hard
     )
 
     return send_file(filename, as_attachment=True)
