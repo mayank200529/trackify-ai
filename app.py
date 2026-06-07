@@ -274,6 +274,11 @@ def dashboard():
     if weekly_goal > 0:
         goal_percentage = round((total_hours / weekly_goal) * 100, 1)
 
+    goal_achieved = False
+
+    if weekly_goal > 0 and total_hours >= weekly_goal:
+        goal_achieved = True
+
     cursor.close()
     conn.close()
 
@@ -295,7 +300,10 @@ def dashboard():
         problem_progress=problem_progress,
         study_progress=study_progress,
         streak_progress=streak_progress,
-        leetcode_stats=leetcode_stats
+        leetcode_stats=leetcode_stats,
+        weekly_goal=weekly_goal,
+        goal_percentage=goal_percentage,
+        goal_achieved=goal_achieved,
     )
 
 
