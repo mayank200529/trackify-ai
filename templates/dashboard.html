@@ -56,6 +56,19 @@
         <p>{{ goal_percentage }}% Complete</p>
     </div>
 
+    <div class="stat-card">
+        <h3>🥇 Consistency Score</h3>
+        <h1>{{ consistency_score }}/100</h1>
+        
+        {% if consistency_score >= 80 %}
+            <p>Excellent</p>
+        {% elif consistency_score >= 50 %}
+            <p>Good Progress</p>
+        {% else %}
+            <p>Keep Improving</p>
+        {% endif %}
+    </div>
+
 </div>
 
     {% if goal_achieved %}

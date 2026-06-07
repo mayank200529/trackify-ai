@@ -279,6 +279,19 @@ def dashboard():
     if weekly_goal > 0 and total_hours >= weekly_goal:
         goal_achieved = True
 
+    consistency_score = 0
+
+    # Study Hours (max 40 points)
+    consistency_score += min(int(total_hours * 2), 40)
+
+    # Streak (max 30 points)
+    consistency_score += min(streak * 5, 30)
+
+    # Problems Solved (max 30 points)
+    consistency_score += min(total_problems * 3, 30)
+
+    consistency_score = min(consistency_score, 100)
+
     cursor.close()
     conn.close()
 
@@ -304,6 +317,7 @@ def dashboard():
         weekly_goal=weekly_goal,
         goal_percentage=goal_percentage,
         goal_achieved=goal_achieved,
+        consistency_score=consistency_score
     )
 
 
