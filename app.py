@@ -259,7 +259,21 @@ def dashboard():
             "medium_solved": 0,
             "hard_solved": 0
         }
-        
+
+    cursor.execute(
+        "SELECT weekly_goal FROM study_goals WHERE user_id=%s ORDER BY id DESC LIMIT 1",
+        (user_id,)
+    )
+
+    goal_data = cursor.fetchone()
+
+    weekly_goal = goal_data["weekly_goal"] if goal_data else 0
+
+    goal_percentage = 0
+
+    if weekly_goal > 0:
+        goal_percentage = round((total_hours / weekly_goal) * 100, 1)
+
     cursor.close()
     conn.close()
 
@@ -610,6 +624,40 @@ def ai_weekly_report():
     )
 
     return render_template("ai_weekly_report.html", report=report)
+
+
+@app.route("/goals", methods=["GET", "POST"])
+def goals():
+
+    if "user_id" not in session:
+        return redirect("/")
+
+    user_id = session["user_id"]
+
+    if request.method == "POST":
+        weekly_goal = request.form["weekly_goal"]
+
+        conn = get_db_connection()
+        cursor = conn.cursor()
+
+        cursor.execute(
+            "DELETE FROM study_goals WHERE user_id=%s",
+            (user_id,)
+        )
+
+        cursor.execute(
+            "INSERT INTO study_goals(user_id, weekly_goal) VALUES(%s, %s)",
+            (user_id, weekly_goal)
+        )
+
+        conn.commit()
+        cursor.close()
+        conn.close()
+
+        return redirect("/dashboard")
+
+    return render_template("goals.html")
+
 
 @app.route("/logout")
 def logout():

@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2>🎯 Weekly Study Goal</h2>
+
+<form method="POST">
+
+    <label>Set Weekly Study Goal (Hours)</label>
+    <input type="number" name="weekly_goal" required>
+
+    <button type="submit">Save Goal</button>
+
+</form>
+
+<br>
+
+<a href="/dashboard">
+    <button>⬅ Back to Dashboard</button>
+</a>
+
+{% endblock %}
