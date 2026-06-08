@@ -96,6 +96,19 @@
 
 <hr>
 
+<h3>📅 Study Activity Heatmap</h3>
+
+<div class="heatmap-container">
+    {% for day in heatmap_data %}
+        <div class="heatmap-box">
+            <span>{{ day.entry_date }}</span>
+            <strong>{{ day.total_hours }}h</strong>
+        </div>
+    {% endfor %}
+</div>
+
+<hr>
+
 <h3>🤖 AI Study Insight</h3>
 
 <div class="ai-box">

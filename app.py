@@ -292,6 +292,17 @@ def dashboard():
 
     consistency_score = min(consistency_score, 100)
 
+    cursor.execute("""
+    SELECT entry_date, SUM(hours) AS total_hours
+    FROM learning_entries
+    WHERE user_id=%s
+    GROUP BY entry_date
+    ORDER BY entry_date DESC
+    LIMIT 14
+    """, (user_id,))
+    
+    heatmap_data = cursor.fetchall()
+
     cursor.close()
     conn.close()
 
@@ -317,7 +328,8 @@ def dashboard():
         weekly_goal=weekly_goal,
         goal_percentage=goal_percentage,
         goal_achieved=goal_achieved,
-        consistency_score=consistency_score
+        consistency_score=consistency_score,
+        heatmap_data=heatmap_data
     )
 
 
