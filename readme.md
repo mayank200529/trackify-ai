@@ -1,5 +1,16 @@
 # 🚀 Trackify AI
 
+![Python](https://img.shields.io/badge/Python-3.10+-blue)
+![Flask](https://img.shields.io/badge/Flask-Web%20Framework-black)
+![MySQL](https://img.shields.io/badge/MySQL-Database-orange)
+![Gemini AI](https://img.shields.io/badge/Gemini-AI-green)
+![Chart.js](https://img.shields.io/badge/Chart.js-Analytics-red)
+![Status](https://img.shields.io/badge/Status-Completed-success)
+
+## 🌟 Overview
+
+Trackify AI is a Flask-based productivity and learning analytics platform that helps students track study sessions, coding progress, goals, achievements, and AI-powered performance insights from a single dashboard.
+
 Trackify AI is a Flask-based productivity and learning analytics platform that helps students track study sessions, coding progress, LeetCode statistics, goals, achievements, and AI-powered performance insights from a single dashboard.
 
 ---
@@ -68,16 +79,20 @@ Trackify AI is a Flask-based productivity and learning analytics platform that h
 ## 📸 Screenshots
 
 ### Dashboard
-(Add Screenshot Here)
 
-### Public Portfolio
-(Add Screenshot Here)
+![Dashboard](screenshots/dashboard.png)
 
 ### AI Weekly Report
-(Add Screenshot Here)
 
-### Contribution Heatmap
-(Add Screenshot Here)
+![AI Weekly Report](screenshots/ai_weekly.png)
+
+### Study Contribution Heatmap
+
+![Heatmap](screenshots/heatmap.png)
+
+### Public Learning Portfolio
+
+![Portfolio](screenshots/portfolio.png)
 
 ---
 
