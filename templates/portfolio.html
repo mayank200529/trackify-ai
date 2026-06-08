@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2>👤 Public Learning Portfolio</h2>
+
+<hr>
+
+<h3>{{ session['user_name'] }}</h3>
+
+<div class="badge-container">
+
+    <div class="badge-card">
+        📚 Study Hours: {{ total_hours }}
+    </div>
+
+    <div class="badge-card">
+        💻 Problems Solved: {{ total_problems }}
+    </div>
+
+    <div class="badge-card">
+        🏆 LeetCode: {{ leetcode_stats.total_solved }}
+    </div>
+
+    <div class="badge-card">
+        🎯 Weekly Goal: {{ weekly_goal }}
+    </div>
+
+    <div class="badge-card">
+        🥇 Consistency: {{ consistency_score }}/100
+    </div>
+
+    <div class="badge-card">
+        {{ study_rank }}
+    </div>
+
+</div>
+
+<hr>
+
+<h3>🤖 AI Summary</h3>
+
+<div class="ai-box">
+    {{ ai_insight }}
+</div>
+
+{% endblock %}

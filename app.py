@@ -702,6 +702,76 @@ def goals():
 
     return render_template("goals.html")
 
+@app.route("/portfolio")
+def portfolio():
+
+    if "user_id" not in session:
+        return redirect("/")
+
+    user_id = session["user_id"]
+
+    conn = get_db_connection()
+    cursor = conn.cursor(dictionary=True)
+
+    cursor.execute(
+        "SELECT SUM(hours) AS total_hours FROM learning_entries WHERE user_id=%s",
+        (user_id,)
+    )
+    result = cursor.fetchone()
+    total_hours = result["total_hours"] if result["total_hours"] else 0
+
+    cursor.execute(
+        "SELECT COUNT(*) AS total_problems FROM coding_entries WHERE user_id=%s",
+        (user_id,)
+    )
+    total_problems = cursor.fetchone()["total_problems"]
+
+    cursor.execute(
+        "SELECT * FROM leetcode_stats WHERE user_id=%s ORDER BY id DESC LIMIT 1",
+        (user_id,)
+    )
+    leetcode_stats = cursor.fetchone()
+
+    if not leetcode_stats:
+        leetcode_stats = {
+            "total_solved": 0
+        }
+
+    cursor.execute(
+        "SELECT weekly_goal FROM study_goals WHERE user_id=%s ORDER BY id DESC LIMIT 1",
+        (user_id,)
+    )
+    goal_data = cursor.fetchone()
+    weekly_goal = goal_data["weekly_goal"] if goal_data else 0
+
+    consistency_score = min(int(total_hours * 2), 40) + min(total_problems * 3, 30)
+    consistency_score = min(consistency_score, 100)
+
+    if consistency_score >= 80:
+        study_rank = "👑 Trackify Master"
+    elif consistency_score >= 60:
+        study_rank = "🥇 Advanced Learner"
+    elif consistency_score >= 30:
+        study_rank = "🥈 Consistent Learner"
+    else:
+        study_rank = "🥉 Beginner"
+
+    ai_insight = "This portfolio highlights consistent learning, coding practice, and placement preparation progress."
+
+    cursor.close()
+    conn.close()
+
+    return render_template(
+        "portfolio.html",
+        total_hours=total_hours,
+        total_problems=total_problems,
+        leetcode_stats=leetcode_stats,
+        weekly_goal=weekly_goal,
+        consistency_score=consistency_score,
+        study_rank=study_rank,
+        ai_insight=ai_insight
+    )
+    
 
 @app.route("/logout")
 def logout():
