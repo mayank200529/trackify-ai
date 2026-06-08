@@ -303,6 +303,15 @@ def dashboard():
     
     heatmap_data = cursor.fetchall()
 
+    if consistency_score >= 80:
+        study_rank = "👑 Trackify Master"
+    elif consistency_score >= 60:
+        study_rank = "🥇 Advanced Learner"
+    elif consistency_score >= 30:
+        study_rank = "🥈 Consistent Learner"
+    else:
+        study_rank = "🥉 Beginner"
+
     cursor.close()
     conn.close()
 
@@ -329,7 +338,8 @@ def dashboard():
         goal_percentage=goal_percentage,
         goal_achieved=goal_achieved,
         consistency_score=consistency_score,
-        heatmap_data=heatmap_data
+        heatmap_data=heatmap_data,
+        study_rank=study_rank
     )
 
 
