@@ -107,6 +107,28 @@ Trackify AI is a Flask-based productivity and learning analytics platform that h
 
 ---
 
+## 🏗️ Project Architecture
+
+```text
+User
+ │
+ ▼
+Flask Application
+ │
+ ├── Authentication
+ ├── Learning Tracker
+ ├── Coding Tracker
+ ├── LeetCode Tracker
+ ├── Goal Management
+ ├── Analytics Dashboard
+ ├── AI Insights (Gemini)
+ ├── PDF Reports
+ └── Public Portfolio
+ │
+ ▼
+MySQL Database
+```
+
 ## ⚙️ Installation
 
 ### Clone Repository
