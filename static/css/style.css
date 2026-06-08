@@ -302,3 +302,60 @@ body.dark-mode a{
     font-size:13px;
     margin-bottom:8px;
 }
+
+
+.github-heatmap{
+    display:grid;
+    grid-template-columns:repeat(14, 18px);
+    gap:6px;
+    margin:20px 0;
+    padding:20px;
+    background:rgba(255,255,255,0.65);
+    border-radius:16px;
+    width:max-content;
+    max-width:100%;
+    overflow-x:auto;
+    box-shadow:0 8px 20px rgba(0,0,0,0.08);
+}
+
+.heatmap-cell{
+    width:18px;
+    height:18px;
+    border-radius:4px;
+}
+
+.level-0{
+    background:#ebedf0;
+}
+
+.level-1{
+    background:#D9ED92;
+}
+
+.level-2{
+    background:#99D98C;
+}
+
+.level-3{
+    background:#52B69A;
+}
+
+.level-4{
+    background:#168AAD;
+}
+
+.heatmap-legend{
+    display:flex;
+    align-items:center;
+    gap:6px;
+    font-size:13px;
+    margin-bottom:20px;
+}
+
+body.dark-mode .github-heatmap{
+    background:#273549;
+}
+
+body.dark-mode .level-0{
+    background:#374151;
+}

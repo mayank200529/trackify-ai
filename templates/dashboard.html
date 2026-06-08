@@ -101,15 +101,36 @@
 
 <hr>
 
-<h3>📅 Study Activity Heatmap</h3>
+<h3>📅 Study Contribution Heatmap</h3>
 
-<div class="heatmap-container">
+<div class="github-heatmap">
+
     {% for day in heatmap_data %}
-        <div class="heatmap-box">
-            <span>{{ day.entry_date }}</span>
-            <strong>{{ day.total_hours }}h</strong>
-        </div>
+        <div class="heatmap-cell level-3" title="{{ day.entry_date }} - {{ day.total_hours }} hours"></div>
     {% endfor %}
+
+    {% for i in range(35) %}
+        <div class="heatmap-cell level-0"></div>
+    {% endfor %}
+
+    <div class="heatmap-cell level-0"></div>
+    <div class="heatmap-cell level-1"></div>
+    <div class="heatmap-cell level-0"></div>
+    <div class="heatmap-cell level-2"></div>
+    <div class="heatmap-cell level-3"></div>
+    <div class="heatmap-cell level-0"></div>
+    <div class="heatmap-cell level-4"></div>
+
+</div>
+
+<div class="heatmap-legend">
+    <span>Less</span>
+    <div class="heatmap-cell level-0"></div>
+    <div class="heatmap-cell level-1"></div>
+    <div class="heatmap-cell level-2"></div>
+    <div class="heatmap-cell level-3"></div>
+    <div class="heatmap-cell level-4"></div>
+    <span>More</span>
 </div>
 
 <hr>
