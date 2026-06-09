@@ -68,7 +68,6 @@ Trackify AI is a Flask-based productivity and learning analytics platform that h
 - Chart.js
 - HTML5
 - CSS3
-- JavaScript
 - ReportLab
 - Git & GitHub
 
@@ -132,7 +131,7 @@ MySQL Database
 ### Clone Repository
 
 ```bash
-git clone https://github.com/yourusername/trackify-ai.git
+git clone https://github.com/mayank200529/trackify-ai.git
 cd trackify-ai
 ```
 
