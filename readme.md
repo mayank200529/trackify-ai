@@ -14,7 +14,7 @@ Trackify AI is a Flask-based productivity and learning analytics platform that h
 ---
 ## Live Demo
 
-🚀 Live Application: https://trackify-ai-4i9t.onrender.com
+🚀 Live Application: https://trackify-ai-4r9t.onrender.com
 
 ## ✨ Features
 
