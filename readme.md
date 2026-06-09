@@ -12,6 +12,9 @@
 Trackify AI is a Flask-based productivity and learning analytics platform that helps students track study sessions, coding progress, LeetCode statistics, goals, achievements, and AI-powered performance insights from a single dashboard.
 
 ---
+## Live Demo
+
+🚀 Live Application: https://trackify-ai-4i9t.onrender.com
 
 ## ✨ Features
 
